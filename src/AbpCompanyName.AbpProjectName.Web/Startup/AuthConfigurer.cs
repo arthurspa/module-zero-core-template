@@ -20,14 +20,14 @@ namespace AbpCompanyName.AbpProjectName.Web.Startup
         /// <param name="configuration">The configuration.</param>
         public static void Configure(IApplicationBuilder app, IConfiguration configuration)
         {
-            app.UseCookieAuthentication(new CookieAuthenticationOptions()
-            {
-                AuthenticationScheme = AuthenticationScheme,
-                LoginPath = new PathString("/Account/Login/"),
-                AccessDeniedPath = new PathString("/Error/E403"),
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true
-            });
+            //app.UseCookieAuthentication(new CookieAuthenticationOptions()
+            //{
+            //    AuthenticationScheme = AuthenticationScheme,
+            //    LoginPath = new PathString("/Account/Login/"),
+            //    AccessDeniedPath = new PathString("/Error/E403"),
+            //    AutomaticAuthenticate = true,
+            //    AutomaticChallenge = true
+            //});
 
             if (bool.Parse(configuration["Authentication:Microsoft:IsEnabled"]))
             {
