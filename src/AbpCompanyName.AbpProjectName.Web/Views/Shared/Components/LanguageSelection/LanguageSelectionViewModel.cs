@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Abp.Localization;
-using Microsoft.AspNetCore.Http;
 
 namespace AbpCompanyName.AbpProjectName.Web.Views.Shared.Components.LanguageSelection
 {
@@ -9,7 +8,5 @@ namespace AbpCompanyName.AbpProjectName.Web.Views.Shared.Components.LanguageSele
         public LanguageInfo CurrentLanguage { get; set; }
 
         public IReadOnlyList<LanguageInfo> Languages { get; set; }
-
-        public PathString CurrentUrl { get; set; }
     }
 }

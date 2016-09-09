@@ -16,13 +16,12 @@ namespace AbpCompanyName.AbpProjectName.Web.Views.Shared.Components.LanguageSele
             _localizationManager = localizationManager;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public IViewComponentResult Invoke()
         {
             var model = new LanguageSelectionViewModel
             {
                 CurrentLanguage = _localizationManager.CurrentLanguage,
-                Languages = _localizationManager.GetAllLanguages(),
-                CurrentUrl = Request.Path
+                Languages = _localizationManager.GetAllLanguages()
             };
 
             return View(model);
