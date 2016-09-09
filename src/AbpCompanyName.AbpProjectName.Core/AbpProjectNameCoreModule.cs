@@ -37,13 +37,17 @@ namespace AbpCompanyName.AbpProjectName
             //Configuration.Notifications.Providers.Add<AppNotificationProvider>();
 
             //Enable this line to create a multi-tenant application.
-            Configuration.MultiTenancy.IsEnabled = true;
+            Configuration.MultiTenancy.IsEnabled = false;
 
             //Enable LDAP authentication (It can be enabled only if MultiTenancy is disabled!)
             //Configuration.Modules.ZeroLdap().Enable(typeof(AppLdapAuthenticationSource));
 
             //Configure roles
             AppRoleConfig.Configure(Configuration.Modules.Zero().RoleManagement);
+
+
+            //Configure permissions
+            Configuration.Authorization.Providers.Add<AbpProjectNameAuthorizationProvider>();
 
             //todo@ismail -> check this.
             //if (DebugHelper.IsDebug)
