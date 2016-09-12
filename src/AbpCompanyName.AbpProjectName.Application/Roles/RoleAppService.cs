@@ -8,7 +8,7 @@ using AbpCompanyName.AbpProjectName.Roles.Dto;
 namespace AbpCompanyName.AbpProjectName.Roles
 {
     /* THIS IS JUST A SAMPLE. */
-    public class RoleAppService : AbpProjectNameAppServiceBase,IRoleAppService
+    public class RoleAppService : AbpProjectNameAppServiceBase, IRoleAppService
     {
         private readonly RoleManager _roleManager;
         private readonly IPermissionManager _permissionManager;

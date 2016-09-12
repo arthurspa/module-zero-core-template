@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AbpCompanyName.AbpProjectName.Web.Controllers
 {
-    [AbpMvcAuthorize(PermissionNames.Pages_Users)]
+    [AbpMvcAuthorize(PermissionNames.Pages_Administration_Users)]
     public class UsersController : AbpProjectNameControllerBase
     {
         private readonly IUserAppService _userAppService;

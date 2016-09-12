@@ -26,7 +26,7 @@ namespace AbpCompanyName.AbpProjectName.Web.Startup
                         L("Tenants"),
                         url: "Tenants",
                         icon: "fa fa-globe",
-                        requiredPermissionName: PermissionNames.Pages_Tenants
+                        requiredPermissionName: PermissionNames.Pages_Administration_Tenants
                         )
                 ).AddItem(
                     new MenuItemDefinition(
@@ -34,7 +34,7 @@ namespace AbpCompanyName.AbpProjectName.Web.Startup
                         L("Users"),
                         url: "Users",
                         icon: "fa fa-users",
-                        requiredPermissionName: PermissionNames.Pages_Users
+                        requiredPermissionName: PermissionNames.Pages_Administration_Users
                         )
                 ).AddItem(
                     new MenuItemDefinition(

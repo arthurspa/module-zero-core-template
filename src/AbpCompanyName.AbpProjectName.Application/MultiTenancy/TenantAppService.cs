@@ -15,7 +15,7 @@ using AbpCompanyName.AbpProjectName.Users;
 
 namespace AbpCompanyName.AbpProjectName.MultiTenancy
 {
-    [AbpAuthorize(PermissionNames.Pages_Tenants)]
+    [AbpAuthorize(PermissionNames.Pages_Administration_Tenants)]
     public class TenantAppService : AbpProjectNameAppServiceBase, ITenantAppService
     {
         private readonly TenantManager _tenantManager;

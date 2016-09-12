@@ -15,10 +15,17 @@ namespace AbpCompanyName.AbpProjectName.Authorization
                 pages = context.CreatePermission(PermissionNames.Pages, L("Pages"));
             }
 
-            var users = pages.CreateChildPermission(PermissionNames.Pages_Users, L("Users"));
+            var administration = pages.CreateChildPermission(PermissionNames.Pages_Administration, L("Administration"));
+
+            var roles = administration.CreateChildPermission(PermissionNames.Pages_Administration_Roles, L("Roles"));
+            var rolesCreating = roles.CreateChildPermission(PermissionNames.Pages_Administration_Roles_Creating, L("RolesCreating"));
+            var rolesDeleting = roles.CreateChildPermission(PermissionNames.Pages_Administration_Roles_Deleting, L("RolesDeleting"));
+            var rolesEditing = roles.CreateChildPermission(PermissionNames.Pages_Administration_Roles_Editing, L("RolesEditing"));
+
+            var users = administration.CreateChildPermission(PermissionNames.Pages_Administration_Users, L("Users"));
 
             //Host permissions
-            var tenants = pages.CreateChildPermission(PermissionNames.Pages_Tenants, L("Tenants"), multiTenancySides: MultiTenancySides.Host);
+            var tenants = administration.CreateChildPermission(PermissionNames.Pages_Administration_Tenants, L("Tenants"), multiTenancySides: MultiTenancySides.Host);
         }
 
         private static ILocalizableString L(string name)
