@@ -4,10 +4,17 @@ using Abp.Application.Services.Dto;
 
 namespace AbpCompanyName.AbpProjectName.Roles.Dto
 {
-    public class UpdateRolePermissionsInput : IInputDto
+    public class UpdateRoleInput
     {
+        [Required]
         [Range(1, int.MaxValue)]
         public int RoleId { get; set; }
+
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
+        public string DisplayName { get; set; }
 
         [Required]
         public List<string> GrantedPermissionNames { get; set; }
