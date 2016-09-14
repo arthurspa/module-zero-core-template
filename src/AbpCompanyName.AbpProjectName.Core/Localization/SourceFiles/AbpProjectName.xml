@@ -53,5 +53,12 @@
     <text name="Yes" value="Yes" />
     <text name="No" value="No" />
     <text name="Optional" value="Optional" />
+
+    <text name="Pages" value="Pages" />
+    <text name="Administration" value="Administration" />
+    <text name="Roles" value="Roles" />
+    <text name="RolesCreating" value="Creating new role" />
+    <text name="RolesDeleting" value="Deleting role" />
+    <text name="RolesEditing" value="Editing role" />
   </texts>
 </localizationDictionary>

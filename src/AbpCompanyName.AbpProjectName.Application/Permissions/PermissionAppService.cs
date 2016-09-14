@@ -23,6 +23,7 @@ namespace AbpCompanyName.AbpProjectName.Permissions
             return new ListResultOutput<PermissionListDto>(
                 _permissionManager
                     .GetAllPermissions()
+                    .ToList()
                     .MapTo<List<PermissionListDto>>()
                 );
         }
