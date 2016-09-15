@@ -76,16 +76,20 @@ namespace AbpCompanyName.AbpProjectName.Web.Startup
             //Integrate to OWIN
             app.UseAppBuilder(ConfigureOwinServices);
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "defaultWithArea",
-                    template: "{area}/{controller=Home}/{action=Index}/{id?}");
+            app.UseMvc(
+            //  It'sa pure API, it'll use AppliationService as controllers, so there is no need to map MVC routes.
+            //
+            //    routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "defaultWithArea",
+            //        template: "{area}/{controller=Home}/{action=Index}/{id?}");
 
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Home}/{action=Index}/{id?}");
+            //}
+            );
 
             // Enable middleware to serve generated Swagger as a JSON endpoint
             //app.UseSwagger();

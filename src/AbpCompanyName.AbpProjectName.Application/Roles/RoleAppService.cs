@@ -9,10 +9,11 @@ using System.Collections.Generic;
 using Abp.Domain.Repositories;
 using Abp.Application.Services.Dto;
 using AutoMapper;
+using AbpCompanyName.AbpProjectName.Authorization;
 
 namespace AbpCompanyName.AbpProjectName.Roles
 {
-    /* THIS IS JUST A SAMPLE. */
+    [AbpAuthorize(PermissionNames.Pages_Administration_Roles)]
     public class RoleAppService : AbpProjectNameAppServiceBase, IRoleAppService
     {
         private readonly IRepository<Role> _roleRepository;
@@ -28,6 +29,7 @@ namespace AbpCompanyName.AbpProjectName.Roles
             _roleRepository = roleRepository;
         }
 
+        [AbpAuthorize(PermissionNames.Pages_Administration_Roles_Creating)]
         public async Task CreateRole(CreateRoleInput input)
         {
             // Create role
@@ -38,6 +40,7 @@ namespace AbpCompanyName.AbpProjectName.Roles
             await SetGrantedPermissionsAsync(role, input.GrantedPermissionNames);
         }
 
+        [AbpAuthorize(PermissionNames.Pages_Administration_Roles_Editing)]
         public async Task UpdateRole(UpdateRoleInput input)
         {
             // Update role properties
@@ -49,6 +52,7 @@ namespace AbpCompanyName.AbpProjectName.Roles
             await SetGrantedPermissionsAsync(role, input.GrantedPermissionNames);
         }
 
+        [AbpAuthorize(PermissionNames.Pages_Administration_Roles_Deleting)]
         public async Task DeleteRole(int roleId)
         {
             var role = await _roleManager.GetRoleByIdAsync(roleId);
