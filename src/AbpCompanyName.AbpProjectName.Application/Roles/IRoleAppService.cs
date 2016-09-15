@@ -7,14 +7,14 @@ namespace AbpCompanyName.AbpProjectName.Roles
 {
     public interface IRoleAppService : IApplicationService
     {
-        Task CreateRole(CreateRoleInput input);
+        Task Create(CreateRoleInput input);
 
-        Task UpdateRole(UpdateRoleInput input);
+        Task Update(UpdateRoleInput input);
 
-        Task DeleteRole(int roleId);
+        Task Delete(int roleId);
 
-        Task<ListResultOutput<RoleListDto>> GetRoles();
+        Task<ListResultOutput<GetAllRolesDto>> GetAll();
 
-        Task<RoleDto> GetRole(int roleId);
+        Task<RoleDto> Get(int roleId);
     }
 }

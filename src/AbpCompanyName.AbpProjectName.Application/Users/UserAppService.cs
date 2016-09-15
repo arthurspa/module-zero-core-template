@@ -7,46 +7,38 @@ using Abp.Domain.Repositories;
 using AbpCompanyName.AbpProjectName.Authorization;
 using AbpCompanyName.AbpProjectName.Users.Dto;
 using Microsoft.AspNet.Identity;
+using AbpCompanyName.AbpProjectName.Authorization.Roles;
+using System;
+using Abp.UI;
+using System.Linq;
 
 namespace AbpCompanyName.AbpProjectName.Users
 {
-    /* THIS IS JUST A SAMPLE. */
+
     [AbpAuthorize(PermissionNames.Pages_Administration_Users)]
     public class UserAppService : AbpProjectNameAppServiceBase, IUserAppService
     {
         private readonly IRepository<User, long> _userRepository;
         private readonly IPermissionManager _permissionManager;
+        private readonly UserManager _userManager;
 
-        public UserAppService(IRepository<User, long> userRepository, IPermissionManager permissionManager)
+        public UserAppService(IRepository<User, long> userRepository, IPermissionManager permissionManager, UserManager userManager)
         {
             _userRepository = userRepository;
             _permissionManager = permissionManager;
+            _userManager = userManager;
         }
 
-        public async Task ProhibitPermission(ProhibitPermissionInput input)
-        {
-            var user = await UserManager.GetUserByIdAsync(input.UserId);
-            var permission = _permissionManager.GetPermission(input.PermissionName);
-
-            await UserManager.ProhibitPermissionAsync(user, permission);
-        }
-
-        //Example for primitive method parameters.
-        public async Task RemoveFromRole(long userId, string roleName)
-        {
-            CheckErrors(await UserManager.RemoveFromRoleAsync(userId, roleName));
-        }
-
-        public async Task<ListResultOutput<UserListDto>> GetUsers()
+        public async Task<ListResultOutput<GetAllUsersDto>> GetAll()
         {
             var users = await _userRepository.GetAllListAsync();
 
-            return new ListResultOutput<UserListDto>(
-                users.MapTo<List<UserListDto>>()
+            return new ListResultOutput<GetAllUsersDto>(
+                users.MapTo<List<GetAllUsersDto>>()
                 );
         }
 
-        public async Task CreateUser(CreateUserInput input)
+        public async Task Create(CreateUserInput input)
         {
             var user = input.MapTo<User>();
 
@@ -54,7 +46,56 @@ namespace AbpCompanyName.AbpProjectName.Users
             user.Password = new PasswordHasher().HashPassword(input.Password);
             user.IsEmailConfirmed = true;
 
+            // Save changes to get user.Id from database
+            CurrentUnitOfWork.SaveChanges();
+
+            // Set roles
+            await _userManager.SetRoles(user, input.RoleNames.ToArray());
+
             CheckErrors(await UserManager.CreateAsync(user));
+        }
+
+        public async Task Update(UpdateUserInput input)
+        {
+            var user = await FindAsync(input.Id);
+
+            user = input.MapTo(user);
+            user.Password = new PasswordHasher().HashPassword(input.Password);
+
+            // Set roles
+            await _userManager.SetRoles(user, input.RoleNames.ToArray());
+
+            CheckErrors(await UserManager.UpdateAsync(user));
+        }
+
+        public async Task Delete(long userId)
+        {
+            var user = await FindAsync(userId);
+
+            CheckErrors(await UserManager.DeleteAsync(user));
+        }
+
+        public async Task SetGrantedPermissions(SetGrantedPermissionsInput input)
+        {
+            var user = await FindAsync(input.UserId);
+
+            var grantedPermissions = _permissionManager
+                .GetAllPermissions()
+                .Where(p => input.GrantedPermissionNames.Contains(p.Name))
+                .ToList();
+
+            await UserManager.SetGrantedPermissionsAsync(user, grantedPermissions);
+        }
+
+        private async Task<User> FindAsync(long id)
+        {
+            var entity = await _userManager.FindByIdAsync(id);
+            if (entity == null)
+            {
+                throw new UserFriendlyException("User not found.");
+            }
+
+            return entity;
         }
     }
 }

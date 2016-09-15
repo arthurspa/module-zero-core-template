@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace AbpCompanyName.AbpProjectName.Permissions.Dto
 {
-    //[AutoMapFrom(typeof(Permission))]
-    public class PermissionListDto
+    [AutoMapFrom(typeof(Permission))]
+    public class GetAllPermissionsDto
     {
         public string Name { get; set; }
 
         public string DisplayName { get; set; }
 
-        public string Parent { get; set; }
+        public string ParentName { get; set; }
     }
 }

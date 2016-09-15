@@ -1,16 +1,18 @@
-using System.ComponentModel.DataAnnotations;
-using Abp.Application.Services.Dto;
+﻿using Abp.Application.Services.Dto;
 using Abp.Auditing;
 using Abp.Authorization.Users;
 using Abp.AutoMapper;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AbpCompanyName.AbpProjectName.Users.Dto
 {
     [AutoMap(typeof(User))]
-    public class CreateUserInput
+    public class UpdateUserInput : EntityDto<long>
     {
-        [Required]
         [StringLength(AbpUserBase.MaxUserNameLength)]
         public string UserName { get; set; }
 
@@ -27,7 +29,6 @@ namespace AbpCompanyName.AbpProjectName.Users.Dto
         [StringLength(AbpUserBase.MaxEmailAddressLength)]
         public string EmailAddress { get; set; }
 
-        [Required]
         [StringLength(User.MaxPlainPasswordLength)]
         [DisableAuditing]
         public string Password { get; set; }
@@ -36,5 +37,6 @@ namespace AbpCompanyName.AbpProjectName.Users.Dto
         public List<string> RoleNames { get; set; }
 
         public bool IsActive { get; set; }
+
     }
 }

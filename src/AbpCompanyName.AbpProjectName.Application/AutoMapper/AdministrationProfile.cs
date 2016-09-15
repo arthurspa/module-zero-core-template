@@ -18,10 +18,10 @@ namespace AbpCompanyName.AbpProjectName.AutoMapper
 
         private void CreatePermissionsMaps()
         {
-            CreateMap<Permission, PermissionListDto>()
-                .ForMember(dest => dest.Parent, opt => opt.MapFrom(src => src.Parent.Name))
-                .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.DisplayName) // TODO: localize string
-            );
+            //CreateMap<Permission, PermissionListDto>()
+            //    .ForMember(dest => dest.Parent, opt => opt.MapFrom(src => src.Parent.Name))
+            //    .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.DisplayName) // TODO: localize string
+            //);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace AbpCompanyName.AbpProjectName.Web.Controllers
 
         public async Task<ActionResult> Index()
         {
-            var output = await _userAppService.GetUsers();
+            var output = await _userAppService.GetAll();
             return View(output);
         }
     }

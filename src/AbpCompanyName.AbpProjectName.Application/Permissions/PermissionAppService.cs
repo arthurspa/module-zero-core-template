@@ -18,13 +18,13 @@ namespace AbpCompanyName.AbpProjectName.Permissions
             _permissionManager = permissionManager;
         }
 
-        public ListResultOutput<PermissionListDto> GetAllPermissions()
+        public ListResultOutput<GetAllPermissionsDto> GetAll()
         {
-            return new ListResultOutput<PermissionListDto>(
+            return new ListResultOutput<GetAllPermissionsDto>(
                 _permissionManager
                     .GetAllPermissions()
                     .ToList()
-                    .MapTo<List<PermissionListDto>>()
+                    .MapTo<List<GetAllPermissionsDto>>()
                 );
         }
     }

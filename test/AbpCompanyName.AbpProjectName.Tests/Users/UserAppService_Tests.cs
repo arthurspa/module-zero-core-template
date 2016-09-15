@@ -20,7 +20,7 @@ namespace AbpCompanyName.AbpProjectName.Tests.Users
         public async Task GetUsers_Test()
         {
             //Act
-            var output = await _userAppService.GetUsers();
+            var output = await _userAppService.GetAll();
 
             //Assert
             output.Items.Count.ShouldBeGreaterThan(0);
@@ -30,7 +30,7 @@ namespace AbpCompanyName.AbpProjectName.Tests.Users
         public async Task CreateUser_Test()
         {
             //Act
-            await _userAppService.CreateUser(
+            await _userAppService.Create(
                 new CreateUserInput
                 {
                     EmailAddress = "john@volosoft.com",

@@ -1,4 +1,7 @@
 ﻿using Abp.Application.Services.Dto;
+using Abp.AutoMapper;
+using Abp.Domain.Entities.Auditing;
+using AbpCompanyName.AbpProjectName.Authorization.Roles;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +10,8 @@ using System.Threading.Tasks;
 
 namespace AbpCompanyName.AbpProjectName.Roles.Dto
 {
-    public class RoleDto : EntityDto
+    [AutoMap(typeof(Role))]
+    public class RoleDto : EntityDto, IHasCreationTime
     {
         public string Name { get; set; }
 
@@ -17,5 +21,6 @@ namespace AbpCompanyName.AbpProjectName.Roles.Dto
 
         public List<string> GrantedPermissions { get; set; }
 
+        public DateTime CreationTime { get; set; }
     }
 }

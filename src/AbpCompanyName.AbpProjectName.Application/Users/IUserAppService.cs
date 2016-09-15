@@ -7,12 +7,14 @@ namespace AbpCompanyName.AbpProjectName.Users
 {
     public interface IUserAppService : IApplicationService
     {
-        Task ProhibitPermission(ProhibitPermissionInput input);
+        Task<ListResultOutput<GetAllUsersDto>> GetAll();
 
-        Task RemoveFromRole(long userId, string roleName);
+        Task Create(CreateUserInput input);
 
-        Task<ListResultOutput<UserListDto>> GetUsers();
+        Task Update(UpdateUserInput input);
 
-        Task CreateUser(CreateUserInput input);
+        Task Delete(long userId);
+
+        Task SetGrantedPermissions(SetGrantedPermissionsInput input);
     }
 }

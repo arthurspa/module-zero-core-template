@@ -10,6 +10,6 @@ namespace AbpCompanyName.AbpProjectName.Permissions
 {
     public interface IPermissionAppService : IApplicationService
     {
-        ListResultOutput<PermissionListDto> GetAllPermissions();
+        ListResultOutput<GetAllPermissionsDto> GetAll();
     }
 }

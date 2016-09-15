@@ -10,6 +10,7 @@ using Abp.Domain.Repositories;
 using Abp.Application.Services.Dto;
 using AutoMapper;
 using AbpCompanyName.AbpProjectName.Authorization;
+using Abp.UI;
 
 namespace AbpCompanyName.AbpProjectName.Roles
 {
@@ -30,55 +31,63 @@ namespace AbpCompanyName.AbpProjectName.Roles
         }
 
         [AbpAuthorize(PermissionNames.Pages_Administration_Roles_Creating)]
-        public async Task CreateRole(CreateRoleInput input)
+        public async Task Create(CreateRoleInput input)
         {
-            // Create role
+            // Create
             var role = input.MapTo<Role>();
             await _roleManager.CreateAsync(role);
 
-            // Set Role permissions
+            // Set permissions
             await SetGrantedPermissionsAsync(role, input.GrantedPermissionNames);
         }
 
         [AbpAuthorize(PermissionNames.Pages_Administration_Roles_Editing)]
-        public async Task UpdateRole(UpdateRoleInput input)
+        public async Task Update(UpdateRoleInput input)
         {
-            // Update role properties
-            var role = await _roleManager.GetRoleByIdAsync(input.Id);
-            role = Mapper.Map(input, role);
+            // Find      
+            var role = await FindAsync(input.Id);
+
+            // Update
+            role = input.MapTo(role);
             await _roleManager.UpdateAsync(role);
 
-            // Update Role permissions
+            // Update permissions
             await SetGrantedPermissionsAsync(role, input.GrantedPermissionNames);
         }
 
         [AbpAuthorize(PermissionNames.Pages_Administration_Roles_Deleting)]
-        public async Task DeleteRole(int roleId)
+        public async Task Delete(int roleId)
         {
-            var role = await _roleManager.GetRoleByIdAsync(roleId);
+            // Find      
+            var role = await FindAsync(roleId);
+
+            if (role.IsStatic)
+            {
+                throw new UserFriendlyException("This role is static and cannot be deleted.");
+            }
+
+            // Delete
             await _roleManager.DeleteAsync(role);
         }
 
-        public async Task<ListResultOutput<RoleListDto>> GetRoles()
+        public async Task<ListResultOutput<GetAllRolesDto>> GetAll()
         {
             var roles = await _roleRepository.GetAllListAsync();
 
-            return new ListResultOutput<RoleListDto>(
-                    roles.MapTo<List<RoleListDto>>()
+            return new ListResultOutput<GetAllRolesDto>(
+                    roles.MapTo<List<GetAllRolesDto>>()
                 );
         }
 
-        public async Task<RoleDto> GetRole(int roleId)
+        public async Task<RoleDto> Get(int roleId)
         {
-            var role = (await _roleRepository.GetAsync(roleId)).MapTo<RoleDto>();
-            
-            var grantedPermissions = await _roleManager.GetGrantedPermissionsAsync(role.Id);
+            // Find      
+            var roleEntity = await FindAsync(roleId);
+            var role = roleEntity.MapTo<RoleDto>();
 
-            role.GrantedPermissions = new List<string>();
-            foreach (var grantedPermission in grantedPermissions)
-            {
-                role.GrantedPermissions.Add(grantedPermission.Name);
-            }
+            // Get permissions
+            var grantedPermissions = await _roleManager.GetGrantedPermissionsAsync(role.Id);
+            role.GrantedPermissions = grantedPermissions.Select(x => x.Name).ToList();
 
             return role;
         }
@@ -90,6 +99,17 @@ namespace AbpCompanyName.AbpProjectName.Roles
                 .Where(p => grantedPermissionNames.Contains(p.Name))
                 .ToList();
             await _roleManager.SetGrantedPermissionsAsync(role, grantedPermissions);
+        }
+
+        private async Task<Role> FindAsync(int id)
+        {
+            var entity = await _roleManager.FindByIdAsync(id);
+            if (entity == null)
+            {
+                throw new UserFriendlyException("Role not found.");
+            }
+
+            return entity;
         }
     }
 }
