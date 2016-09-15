@@ -8,6 +8,7 @@ using Abp.AutoMapper;
 using System.Collections.Generic;
 using Abp.Domain.Repositories;
 using Abp.Application.Services.Dto;
+using AutoMapper;
 
 namespace AbpCompanyName.AbpProjectName.Roles
 {
@@ -40,7 +41,8 @@ namespace AbpCompanyName.AbpProjectName.Roles
         public async Task UpdateRole(UpdateRoleInput input)
         {
             // Update role properties
-            var role = input.MapTo<Role>();
+            var role = await _roleManager.GetRoleByIdAsync(input.Id);
+            role = Mapper.Map(input, role);
             await _roleManager.UpdateAsync(role);
 
             // Update Role permissions

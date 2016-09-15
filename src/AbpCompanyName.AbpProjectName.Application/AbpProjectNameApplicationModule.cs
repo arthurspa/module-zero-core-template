@@ -3,7 +3,6 @@ using Abp.AutoMapper;
 using Abp.Modules;
 using AbpCompanyName.AbpProjectName.Authorization;
 using AbpCompanyName.AbpProjectName.AutoMapper;
-using Abp.Localization;
 
 namespace AbpCompanyName.AbpProjectName
 {
@@ -19,7 +18,7 @@ namespace AbpCompanyName.AbpProjectName
             Configuration.Modules.AbpAutoMapper().Configurators.Add(cfg =>
             {
                 cfg.CreateMissingTypeMaps = true;
-                cfg.AddProfile< AdministrationProfile>();
+                cfg.AddProfile<AdministrationProfile>();
             });
         }
 
